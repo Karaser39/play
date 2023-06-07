@@ -1,2 +1,2 @@
 class Url:
-    DOMAIN = 'https://patient.kode.ru'
+    DOMAIN = 'https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login'
