@@ -1,6 +1,8 @@
 import pytest
 from time import sleep
 from playwright.sync_api import sync_playwright, expect
+from tests.functions import login_hermiona
+from tests.functions import deposite_100
 
 
 @pytest.fixture(scope='function')
@@ -14,20 +16,19 @@ def page():
 
 def test_deposite(page):
     page.goto("https://www.globalsqa.com/angularJs-protractor/BankingProject/#/login")
-    customer_login_button = page.locator('button', has_text='Customer Login')
-    customer_login_button.click();
-    you_name_list = page.locator("#userSelect")
-    you_name_list.click()
-    page.keyboard.press("H")
-    page.keyboard.press("Enter")
-    deposite_button = page.locator('button', has_text='Deposit ')
-    deposite_button.click()
-    amount_input = page.locator('[placeholder="amount"]')
-    amount_input.click()
-    amount_input.fill("100")
-    deposite_sumbit_button = page.locator(".btn.btn-default")
-    deposite_sumbit_button.click()
-    sleep(5)
+    login_hermiona(page)
+    balance = page.locator('css=body > div > div > div.ng-scope > div > div:nth-child(3) > strong:nth-child(2)')
+    balance_start = balance.text_content()
+    balance_end = str (int(balance_start) + 100)
+    deposite_100(page)
+    deposit_successful_text = page.locator(".error.ng-binding")
+    expect(deposit_successful_text).to_have_text("Deposit Successful")
+    expect(balance).to_have_text(balance_end)
+
+
+
+
+
 
 
 
